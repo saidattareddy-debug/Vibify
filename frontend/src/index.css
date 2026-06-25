@@ -135,3 +135,44 @@
         scroll-behavior: auto !important;
     }
 }
+
+/* ── Preloader glitch / scramble effects ── */
+.vibify-rgb-r { animation: vibify-rgb-r 0.9s steps(2) infinite; }
+.vibify-rgb-b { animation: vibify-rgb-b 1.05s steps(2) infinite; }
+@keyframes vibify-rgb-r {
+    0%, 100% { transform: translate(-3px, 0); opacity: 0.85; }
+    50% { transform: translate(3px, 1px); opacity: 0.55; }
+}
+@keyframes vibify-rgb-b {
+    0%, 100% { transform: translate(3px, 0); opacity: 0.85; }
+    50% { transform: translate(-3px, -1px); opacity: 0.55; }
+}
+
+.vibify-scan { animation: vibify-scan 1.2s steps(3) infinite; }
+@keyframes vibify-scan {
+    0%, 100% { transform: translateX(0); clip-path: inset(0 0 0 0); }
+    7% { transform: translateX(-4px); clip-path: inset(15% 0 55% 0); }
+    14% { transform: translateX(4px); clip-path: inset(55% 0 12% 0); }
+    21% { transform: translateX(-2px); clip-path: inset(35% 0 35% 0); }
+    28% { transform: translateX(0); clip-path: inset(0 0 0 0); }
+}
+
+.vibify-sweep {
+    background-image: linear-gradient(100deg,
+        #F5F5FA 0%, #F5F5FA 32%, #7C3AED 43%, #EC4899 50%,
+        #22D3EE 57%, #F5F5FA 68%, #F5F5FA 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: vibify-sweep 0.9s ease-out forwards, vibify-glow 0.9s ease-out;
+}
+@keyframes vibify-sweep {
+    from { background-position: 130% 0; }
+    to { background-position: -30% 0; }
+}
+@keyframes vibify-glow {
+    0% { filter: drop-shadow(0 0 0 rgba(124,58,237,0)); }
+    50% { filter: drop-shadow(0 0 26px rgba(236,72,153,0.65)); }
+    100% { filter: drop-shadow(0 0 0 rgba(124,58,237,0)); }
+}
