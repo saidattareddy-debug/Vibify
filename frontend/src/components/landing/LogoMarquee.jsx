@@ -1,4 +1,4 @@
-const logos = ["NOVA", "Lumen", "Pulse", "Vertex", "Halo", "Drift", "Orbit", "Flux", "Ember", "Zenith"];
+const logos = ["Quake", "Big Bull", "Monastery", "The Happy Yard", "Kompound"];
 
 export const LogoMarquee = () => {
   const row = [...logos, ...logos];

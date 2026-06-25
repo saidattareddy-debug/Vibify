@@ -5,7 +5,7 @@ import HeroBackground from "./HeroBackground";
 import MagneticButton from "./MagneticButton";
 
 const headline = ["We", "make", "brands", "impossible", "to", "ignore."];
-const logos = ["NOVA", "Lumen", "Pulse", "Vertex", "Halo", "Drift"];
+const logos = ["Quake", "Big Bull", "Monastery", "The Happy Yard", "Kompound"];
 
 const container = {
   hidden: {},
