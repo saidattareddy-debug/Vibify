@@ -7,10 +7,10 @@ const testimonials = [
   { quote: "The most creative, fastest-moving team we've ever worked with. Our reach 4x'd in a quarter.", name: "Daniel Okafor", role: "Founder, Big Bull" },
   { quote: "They understand attention like no one else. The press coverage alone paid for itself tenfold.", name: "Sofia Marin", role: "Head of Brand, Monastery" },
   { quote: "From strategy to execution, everything just hits. Vibify is our unfair advantage.", name: "Liam Walsh", role: "CEO, The Happy Yard" },
-  { quote: "Vibify curated our launch event end to end — the room, the guest list, the energy. It wasn't just an event, it was a moment people are still talking about.", name: "Chanukya", role: "Event Curation Lead, Quake" },
-  { quote: "Every detail was intentional, from the first invite to the final encore. Our brand activation pulled a crowd we couldn't have dreamed of.", name: "Sandeep", role: "Head of Events, Big Bull" },
-  { quote: "They turned a simple product launch into a full-blown experience. The curation, staging, and press pull were absolutely flawless.", name: "Shashidhar", role: "Experience Director, Monastery" },
-  { quote: "Vibify makes events that trend. Ours sold out, and the after-buzz did our marketing for us for weeks.", name: "Yash", role: "Founder, The Happy Yard" },
+  { quote: "Vibify curated our launch event end to end — the room, the guest list, the energy. It wasn't just an event, it was a moment people are still talking about.", name: "Chanukya", role: "" },
+  { quote: "Every detail was intentional, from the first invite to the final encore. Our brand activation pulled a crowd we couldn't have dreamed of.", name: "Sandeep", role: "" },
+  { quote: "They turned a simple product launch into a full-blown experience. The curation, staging, and press pull were absolutely flawless.", name: "Shashidhar", role: "" },
+  { quote: "Vibify makes events that trend. Ours sold out, and the after-buzz did our marketing for us for weeks.", name: "Yash", role: "" },
 ];
 
 export const Testimonials = () => {
@@ -43,7 +43,7 @@ export const Testimonials = () => {
               </p>
               <div className="mt-8">
                 <p className="font-semibold text-textPrimary">{testimonials[idx].name}</p>
-                <p className="text-textMuted">{testimonials[idx].role}</p>
+                {testimonials[idx].role && <p className="text-textMuted">{testimonials[idx].role}</p>}
               </div>
             </motion.div>
           </AnimatePresence>

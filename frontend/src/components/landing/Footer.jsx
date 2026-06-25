@@ -54,6 +54,13 @@ export const Footer = ({ onTalk }) => {
             <p className="mt-4 max-w-xs text-textMuted">
               The marketing & PR agency that turns attention into momentum.
             </p>
+            <a
+              href="tel:+918008391241"
+              data-testid="footer-phone"
+              className="mt-4 inline-block text-textMuted transition-colors hover:text-textPrimary link-wipe"
+            >
+              +91 80083 91241
+            </a>
             <div className="mt-6 flex gap-3">
               {socials.map((s) => (
                 <a
@@ -134,7 +141,7 @@ export const Footer = ({ onTalk }) => {
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-sm text-textMuted">© {new Date().getFullYear()} Vibify. All rights reserved.</p>
+          <p className="text-sm text-textMuted">© 2024 Vibify. All rights reserved.</p>
           <p className="text-sm text-textMuted">Made to be impossible to ignore.</p>
         </div>
       </div>
