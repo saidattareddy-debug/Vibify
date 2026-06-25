@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -17,9 +17,11 @@ const wordItem = { hidden: { y: "110%" }, show: { y: "0%", transition: { duratio
 const WordReveal = ({ text, className = "" }) => (
   <motion.span variants={wordContainer} initial="hidden" animate="show" className={`inline-block ${className}`} aria-label={text}>
     {text.split(" ").map((w, i) => (
-      <span key={i} className="inline-block overflow-hidden pb-[0.08em] mr-[0.25em]" aria-hidden="true">
-        <motion.span variants={wordItem} className="inline-block">{w}</motion.span>
-      </span>
+      <Fragment key={i}>
+        <span className="inline-block overflow-hidden pb-[0.08em]" aria-hidden="true">
+          <motion.span variants={wordItem} className="inline-block">{w}</motion.span>
+        </span>{" "}
+      </Fragment>
     ))}
   </motion.span>
 );

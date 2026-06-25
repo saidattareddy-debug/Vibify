@@ -23,6 +23,10 @@ Build a world-class, Awwwards-quality single-page marketing & PR agency website 
 - ✅ Backend endpoints: POST /api/contact, /api/booking, /api/newsletter (idempotent), GET /api/submissions(?type=), GET /api/stats.
 - ✅ /admin inbox with stat cards + type tabs.
 - ✅ Tested: backend 10/10 pytest pass; all 13 frontend flows verified. Hero a11y aria-label added.
+- ✅ **Multi-page expansion**: client-side routing with 8 dedicated service pages (/services/<slug>), shared premium ServicePage template (hero w/ word-reveal, intro, what-we-do grid, process strip, showcase masonry, count-up results, related services, CTA form). Navbar Services dropdown (desktop + mobile) with gradient icons. AnimatePresence page transitions, ScrollManager (top/hash), per-service SEO title+meta. Homepage service cards link to routes. Tested: 17/17 frontend flows pass; word-reveal whitespace a11y/SEO fix applied.
+
+## Service routes
+brand-strategy, public-relations, social-media-marketing, influencer-campaigns, content-creative, performance-ads, website-development, proptech. Content/imagery config in `src/data/services.js` (easy asset swap).
 
 ## Backlog / Next
 - P1: Email notification (Resend/SendGrid) on new lead submission.

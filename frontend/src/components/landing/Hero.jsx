@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Fragment } from "react";
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import HeroBackground from "./HeroBackground";
 import MagneticButton from "./MagneticButton";
@@ -45,14 +46,16 @@ export const Hero = ({ onTalk, onWork }) => {
           aria-label="We make brands impossible to ignore."
         >
           {headline.map((w, i) => (
-            <span key={i} className="inline-block overflow-hidden pb-[0.08em] mr-[0.22em]">
-              <motion.span
-                variants={word}
-                className={`inline-block ${i >= 2 && i <= 4 ? "text-gradient" : ""}`}
-              >
-                {w}
-              </motion.span>
-            </span>
+            <Fragment key={i}>
+              <span className="inline-block overflow-hidden pb-[0.08em]" aria-hidden="true">
+                <motion.span
+                  variants={word}
+                  className={`inline-block ${i >= 2 && i <= 4 ? "text-gradient" : ""}`}
+                >
+                  {w}
+                </motion.span>
+              </span>{" "}
+            </Fragment>
           ))}
         </motion.h1>
 
