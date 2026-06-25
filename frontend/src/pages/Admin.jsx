@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSubmissions, getStats } from "../lib/api";
 import { Mail, Phone, MessageSquare, RefreshCw } from "lucide-react";
+import { Seo } from "../components/Seo";
 
 const tabs = [
   { key: "", label: "All" },
@@ -33,6 +34,12 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-ink text-textPrimary" data-testid="admin-page">
+      <Seo
+        title="Admin — Vibify"
+        description="Vibify internal submissions dashboard."
+        path="/admin"
+        noindex
+      />
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="flex items-center justify-between">
           <h1 className="font-display text-4xl font-semibold">Vibify <span className="text-gradient">Inbox</span></h1>

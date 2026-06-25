@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -10,6 +10,7 @@ import ContactDialog from "../components/landing/ContactDialog";
 import Reveal from "../components/landing/Reveal";
 import CountUp from "../components/landing/CountUp";
 import MagneticButton from "../components/landing/MagneticButton";
+import { Seo, SITE } from "../components/Seo";
 
 const wordContainer = { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } } };
 const wordItem = { hidden: { y: "110%" }, show: { y: "0%", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
@@ -31,18 +32,6 @@ export default function ServicePage() {
   const service = getService(slug);
   const [dialog, setDialog] = useState({ open: false, mode: "contact" });
 
-  useEffect(() => {
-    if (!service) return;
-    document.title = service.seo.title;
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "description";
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute("content", service.seo.description);
-  }, [service]);
-
   if (!service) return <Navigate to="/" replace />;
 
   const Icon = service.icon;
@@ -51,9 +40,32 @@ export default function ServicePage() {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   const related = service.related.map((s) => getService(s)).filter(Boolean);
 
+  const path = `/services/${service.slug}`;
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    serviceType: service.category,
+    description: service.seo.description,
+    url: `${SITE}${path}`,
+    image: service.images.hero,
+    provider: {
+      "@type": "Organization",
+      name: "Vibify",
+      url: SITE,
+    },
+    areaServed: "Worldwide",
+  };
+
   return (
     <div className="bg-ink text-textPrimary" data-testid={`service-page-${service.slug}`}>
-      <ScrollProgress />
+      <Seo
+        title={service.seo.title}
+        description={service.seo.description}
+        path={path}
+        image={service.images.hero}
+        jsonLd={serviceJsonLd}
+      />      <ScrollProgress />
       <Navbar onTalk={openProject} />
 
       {/* 1. HERO */}

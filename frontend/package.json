@@ -63,7 +63,26 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "postbuild": "react-snap",
     "test": "craco test"
+  },
+  "reactSnap": {
+    "source": "build",
+    "crawl": false,
+    "include": [
+      "/",
+      "/services/brand-strategy",
+      "/services/content-creative",
+      "/services/influencer-campaigns",
+      "/services/performance-ads",
+      "/services/proptech",
+      "/services/public-relations",
+      "/services/social-media-marketing",
+      "/services/website-development"
+    ],
+    "inlineCss": false,
+    "skipThirdPartyRequests": true,
+    "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"]
   },
   "browserslist": {
     "production": [
@@ -92,9 +111,11 @@
     "eslint-plugin-react-hooks": "5.2.0",
     "globals": "15.15.0",
     "postcss": "8.5.10",
+    "react-snap": "^1.23.0",
     "tailwindcss": "3.4.17"
   },
   "resolutions": {
+    "cookie": "1.0.2",
     "react-router": "7.15.0",
     "node-forge": "1.4.0",
     "fast-uri": "3.1.2",

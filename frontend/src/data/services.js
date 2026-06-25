@@ -47,7 +47,7 @@ export const services = [
     ],
     related: ["public-relations", "content-creative", "website-development"],
     seo: {
-      title: "Brand Strategy — Vibify",
+      title: "Brand Strategy Agency — Positioning & Identity | Vibify",
       description: "Positioning, identity, and messaging that make brands unforgettable. Vibify builds brand systems that compound into demand.",
     },
   },
@@ -90,7 +90,7 @@ export const services = [
     ],
     related: ["brand-strategy", "social-media-marketing", "content-creative"],
     seo: {
-      title: "Public Relations — Vibify",
+      title: "Public Relations Agency — Earned Media & Press | Vibify",
       description: "Earned media, press, and reputation management that put your brand in the spotlight. PR that makes you the story.",
     },
   },
@@ -176,7 +176,7 @@ export const services = [
     ],
     related: ["social-media-marketing", "content-creative", "performance-ads"],
     seo: {
-      title: "Influencer Campaigns — Vibify",
+      title: "Influencer Marketing Campaigns That Convert | Vibify",
       description: "Creator partnerships that turn reach into real results. Sourcing, UGC, affiliates, and performance tracking handled end-to-end.",
     },
   },
@@ -219,7 +219,7 @@ export const services = [
     ],
     related: ["brand-strategy", "social-media-marketing", "performance-ads"],
     seo: {
-      title: "Content & Creative — Vibify",
+      title: "Content & Creative Studio — Video, Copy & Design | Vibify",
       description: "Bold visuals, video, and copy that define your voice. An in-house creative studio building work that performs.",
     },
   },
@@ -262,7 +262,7 @@ export const services = [
     ],
     related: ["social-media-marketing", "website-development", "influencer-campaigns"],
     seo: {
-      title: "Performance Ads — Vibify",
+      title: "Performance Ads Agency — Paid Social & PPC ROI | Vibify",
       description: "Data-driven paid campaigns engineered for measurable ROI. Paid social, PPC, media buying, and conversion optimization.",
     },
   },
@@ -305,7 +305,7 @@ export const services = [
     ],
     related: ["performance-ads", "brand-strategy", "proptech"],
     seo: {
-      title: "Website Development — Vibify",
+      title: "Website Development — Fast, Converting Websites | Vibify",
       description: "Fast, beautiful, conversion-focused websites built to impress and perform. Web design, development, e-commerce, and SEO.",
     },
   },
@@ -349,7 +349,7 @@ export const services = [
     ],
     related: ["website-development", "performance-ads", "content-creative"],
     seo: {
-      title: "PropTech — Vibify",
+      title: "PropTech Marketing for Real Estate Brands | Vibify",
       description: "Marketing and digital products purpose-built for real estate and property brands. Listing platforms, virtual tours, and lead-gen.",
     },
   },

@@ -13,9 +13,29 @@ import Footer from "../components/landing/Footer";
 import ScrollProgress from "../components/landing/ScrollProgress";
 import ContactDialog from "../components/landing/ContactDialog";
 import Preloader from "../components/landing/Preloader";
+import { Seo, SITE } from "../components/Seo";
+
+const HOME_TITLE = "Vibify — Marketing & PR Agency That Makes Brands Viral";
+const HOME_DESC =
+  "Vibify is a bold marketing & PR agency that turns attention into momentum. Brand strategy, PR, social, influencer, content, ads, web & PropTech that make brands impossible to ignore.";
+
+const ORG_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Vibify",
+  url: SITE,
+  logo: `${SITE}/og-image.png`,
+  description: HOME_DESC,
+  sameAs: [
+    "https://twitter.com/vibify",
+    "https://www.instagram.com/vibify",
+    "https://www.linkedin.com/company/vibify",
+  ],
+};
 
 const shouldIntro = () => {
   if (typeof window === "undefined") return false;
+  if (navigator.userAgent === "ReactSnap") return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
   return !sessionStorage.getItem("vibify_intro_seen");
 };
@@ -34,6 +54,7 @@ export default function Landing() {
 
   return (
     <>
+      <Seo title={HOME_TITLE} description={HOME_DESC} path="/" jsonLd={ORG_JSONLD} />
       <AnimatePresence>
         {loading && <Preloader key="preloader" onDone={finishIntro} />}
       </AnimatePresence>

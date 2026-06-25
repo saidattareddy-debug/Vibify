@@ -1,0 +1,71 @@
+{
+  "summary": "SEO/indexing validation for Vibify SPA: robots.txt, sitemap.xml, per-page metadata (title/description/canonical/OG/Twitter), JSON-LD (Organization on home + Service on each service page), /admin noindex, and regression on visible content + contact/booking POST APIs. All criteria PASS.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "static_files_verification": {
+    "robots_txt": {
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "contains_disallow_admin": true,
+      "contains_sitemap_line": true,
+      "note": "Cloudflare prepends a managed content-signals block, but required 'Disallow: /admin' and 'Sitemap: https://vibifymarketing.com/sitemap.xml' are appended at the end as expected"
+    },
+    "sitemap_xml": {
+      "status": 200,
+      "content_type": "application/xml",
+      "well_formed": true,
+      "urls_count": 9,
+      "homepage_present": true,
+      "all_8_services_present": true
+    }
+  },
+  "metadata_verification": {
+    "homepage": {
+      "title": "Vibify — Marketing & PR Agency That Makes Brands Viral",
+      "unique_description": true,
+      "canonical": "https://vibifymarketing.com/",
+      "og_title_description_url_image": true,
+      "twitter_card": "summary_large_image",
+      "jsonld_organization": true,
+      "emergent_sh_text": false
+    },
+    "service_pages": {
+      "all_8_have_unique_titles": true,
+      "all_8_have_unique_descriptions": true,
+      "all_canonicals_absolute_and_correct": true,
+      "all_have_og_and_twitter_tags": true,
+      "all_have_jsonld_type_Service": true,
+      "no_emergent_sh_references": true
+    },
+    "admin_route": {
+      "title": "Admin — Vibify",
+      "meta_robots": "noindex,nofollow"
+    },
+    "uniqueness_check": "9 unique titles across 9 of 9 pages; 9 unique descriptions across 9 of 9 pages"
+  },
+  "regression": {
+    "homepage_landing_visible": true,
+    "service_page_visible_and_renders_headline": true,
+    "POST_/api/contact": "200 OK, returns submission id",
+    "POST_/api/booking": "200 OK, returns submission id"
+  },
+  "test_report_links": ["/app/test_reports/iteration_4.json"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Seo.jsx uses absolute production URL (https://vibifymarketing.com) hardcoded for canonical/OG even on preview — this is intentional per the request but means the preview environment can't be used to test relative-URL changes. Consider sourcing SITE from env (e.g. REACT_APP_SITE_URL) so non-prod deployments are correct without code edits.",
+    "Cloudflare prepends a managed robots.txt block before the project's custom rules. The required 'Disallow: /admin' and 'Sitemap' lines appear correctly at the end, but the duplicated 'User-agent: *' block could be slightly confusing for some crawlers. Consider verifying behaviour in Google Search Console.",
+    "social-media-marketing seo.title is shorter (only 30 chars 'Social Media Marketing — Vibify'); the other 7 service pages use the longer pattern 'X Agency — Y | Vibify'. Optional tightening for SEO consistency.",
+    "robots.txt + sitemap.xml hardcode production domain in static files (expected) — but they're served from every environment. A cross-environment crawl could mis-discover. Consider build-time templating or environment-aware sitemap if needed."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "No auth required for this test.",
+  "seed_data_creation": "Created 2 TEST_-prefixed submissions in DB via /api/contact and /api/booking during regression (TEST_SEO_Regression contact, TEST_SEO_Booking booking)",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All SEO requirements verified on rendered DOM via Playwright on preview (dev server, JS executed). Static files robots.txt/sitemap.xml served from public/ pass with correct Content-Types. The preview is behind Cloudflare which PREPENDS a managed robots block — project-required lines are appended at end and present. React 19 native <title>/<meta>/<link> hoist is working correctly. Production prerender via react-snap was NOT verified here (main agent confirms it's verified via build artifacts separately)."
+}
