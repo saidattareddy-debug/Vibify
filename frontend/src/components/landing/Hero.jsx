@@ -42,6 +42,7 @@ export const Hero = ({ onTalk, onWork }) => {
           animate="show"
           className="font-display font-semibold leading-[0.95] tracking-tight text-textPrimary text-5xl sm:text-7xl lg:text-[5.8rem] max-w-5xl"
           data-testid="hero-headline"
+          aria-label="We make brands impossible to ignore."
         >
           {headline.map((w, i) => (
             <span key={i} className="inline-block overflow-hidden pb-[0.08em] mr-[0.22em]">
