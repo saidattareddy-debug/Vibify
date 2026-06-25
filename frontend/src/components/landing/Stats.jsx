@@ -2,7 +2,7 @@ import CountUp from "./CountUp";
 import Reveal from "./Reveal";
 
 const stats = [
-  { to: 250, suffix: "+", label: "Brands launched", decimals: 0 },
+  { to: 25, suffix: "+", label: "Brands launched", decimals: 0 },
   { to: 1.2, suffix: "B+", label: "Impressions generated", decimals: 1 },
   { to: 320, suffix: "%", label: "Average growth", decimals: 0 },
 ];
