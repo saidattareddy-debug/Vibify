@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
 const work = [
-  { img: "https://images.unsplash.com/photo-1512242712282-774a8bc0d9d3?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Bold Launch", client: "Quake", result: "+412% launch-week reach", tall: true },
-  { img: "https://images.pexels.com/photos/11034423/pexels-photo-11034423.jpeg?auto=compress&cs=tinysrgb&w=1200", name: "Gen-Z Takeover", client: "Big Bull", result: "1.2M new followers" },
-  { img: "https://images.unsplash.com/photo-1661659739121-bfdc4223280d?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Outdoor Domination", client: "Monastery", result: "84M impressions" },
-  { img: "https://images.pexels.com/photos/8638608/pexels-photo-8638608.jpeg?auto=compress&cs=tinysrgb&w=1200", name: "Creator Network", client: "The Happy Yard", result: "320% ROI on spend", tall: true },
-  { img: "https://images.unsplash.com/photo-1744686909358-915e14866592?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Content Engine", client: "Kompound", result: "600+ assets shipped" },
-  { img: "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "PR Blitz", client: "Quake", result: "47 press features" },
+  { img: "https://images.unsplash.com/photo-1512242712282-774a8bc0d9d3?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Bold Launch", client: "Quake", result: "+412% reach", tall: true },
+  { img: "https://images.pexels.com/photos/11034423/pexels-photo-11034423.jpeg?auto=compress&cs=tinysrgb&w=1200", name: "Gen-Z Takeover", client: "Big Bull", result: "+285% reach" },
+  { img: "https://images.unsplash.com/photo-1661659739121-bfdc4223280d?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Outdoor Domination", client: "Monastery", result: "+340% reach" },
+  { img: "https://images.pexels.com/photos/8638608/pexels-photo-8638608.jpeg?auto=compress&cs=tinysrgb&w=1200", name: "Creator Network", client: "The Happy Yard", result: "+228% reach", tall: true },
+  { img: "https://images.unsplash.com/photo-1744686909358-915e14866592?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Content Engine", client: "Kompound", result: "+196% reach" },
+  { img: "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "PR Blitz", client: "Quake", result: "+410% reach" },
 ];
 
 export const Work = () => {
