@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
+import { services } from "../../data/services";
 
-const links = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#process" },
-  { label: "Contact", href: "#footer" },
+const sectionLinks = [
+  { label: "Work", to: "/#work" },
+  { label: "About", to: "/#process" },
+  { label: "Contact", to: "/#footer" },
 ];
 
 export const Navbar = ({ onTalk }) => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServices, setMobileServices] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -32,20 +35,65 @@ export const Navbar = ({ onTalk }) => {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6">
-        <a href="#top" data-testid="logo-link" className="font-display text-2xl font-semibold tracking-tight">
+        <Link to="/" data-testid="logo-link" className="font-display text-2xl font-semibold tracking-tight">
           Vib<span className="text-gradient">ify</span>
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-9">
-          {links.map((l) => (
-            <a
+          <div
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+          >
+            <button
+              data-testid="nav-services"
+              className="flex items-center gap-1 text-sm font-medium text-textMuted hover:text-textPrimary transition-colors"
+            >
+              Services
+              <ChevronDown className={`h-4 w-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
+            </button>
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.2 }}
+                  data-testid="services-dropdown"
+                  className="absolute left-1/2 top-full -translate-x-1/2 pt-4"
+                >
+                  <div className="grid w-[34rem] grid-cols-2 gap-1 rounded-2xl border border-white/10 glass p-3 shadow-2xl">
+                    {services.map((s) => {
+                      const Icon = s.icon;
+                      return (
+                        <Link
+                          key={s.slug}
+                          to={`/services/${s.slug}`}
+                          data-testid={`dropdown-${s.slug}`}
+                          className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-white/5"
+                        >
+                          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-vibe-gradient/15 ring-1 ring-white/10">
+                            <Icon className="h-4 w-4 text-cyan group-hover:text-magenta transition-colors" />
+                          </span>
+                          <span className="text-sm font-medium text-textPrimary">{s.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {sectionLinks.map((l) => (
+            <Link
               key={l.label}
-              href={l.href}
+              to={l.to}
               data-testid={`nav-${l.label.toLowerCase()}`}
               className="link-wipe text-sm font-medium text-textMuted hover:text-textPrimary transition-colors"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -77,16 +125,50 @@ export const Navbar = ({ onTalk }) => {
             className="md:hidden overflow-hidden glass border-t border-white/10"
             data-testid="mobile-menu"
           >
-            <div className="flex flex-col px-6 py-4 gap-1">
-              {links.map((l) => (
-                <a
+            <div className="flex flex-col px-6 py-4">
+              <button
+                onClick={() => setMobileServices((v) => !v)}
+                className="flex items-center justify-between py-3 text-base text-textPrimary border-b border-white/5"
+                data-testid="mobile-services-toggle"
+              >
+                Services
+                <ChevronDown className={`h-4 w-4 transition-transform ${mobileServices ? "rotate-180" : ""}`} />
+              </button>
+              <AnimatePresence>
+                {mobileServices && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden pl-2"
+                  >
+                    {services.map((s) => {
+                      const Icon = s.icon;
+                      return (
+                        <Link
+                          key={s.slug}
+                          to={`/services/${s.slug}`}
+                          onClick={() => setOpen(false)}
+                          data-testid={`mobile-dropdown-${s.slug}`}
+                          className="flex items-center gap-3 py-2.5 text-sm text-textMuted"
+                        >
+                          <Icon className="h-4 w-4 text-cyan" />
+                          {s.name}
+                        </Link>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              {sectionLinks.map((l) => (
+                <Link
                   key={l.label}
-                  href={l.href}
+                  to={l.to}
                   onClick={() => setOpen(false)}
                   className="py-3 text-base text-textPrimary border-b border-white/5"
                 >
                   {l.label}
-                </a>
+                </Link>
               ))}
               <button
                 onClick={() => { setOpen(false); onTalk(); }}

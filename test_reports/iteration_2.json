@@ -1,0 +1,50 @@
+{
+  "summary": "Frontend-only retest of multi-page expansion (8 service pages, routing, dropdown, related nav, dialogs). All 17 critical flows passed end-to-end against the public REACT_APP_BACKEND_URL.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "ServicePage hero headline (all 8 routes)",
+        "issues": [
+          "Same a11y/SEO defect as Hero.jsx (iteration_1): ServicePage.jsx WordReveal (lines 17-25) renders each word as adjacent inline-block spans with mr-[0.25em] margin and NO whitespace text node between them. innerText returns concatenated string e.g. 'Brandsthatmeansomething.' / 'Growthyoucanmeasure.' Visual spacing is purely CSS. Affects screen readers, SEO snippets, copy-paste. Fix: insert ' ' between mapped <span> siblings or add aria-label on the h1 with the full sentence (already partly done via aria-label on the outer motion.span, but inner words still use aria-hidden so SR readers may rely on outer label — verify VoiceOver/NVDA pronunciation). Recommend also normalising innerText with whitespace for SEO crawlers."
+        ]
+      },
+      {
+        "screen": "Navbar SPA navigation via dropdown",
+        "issues": [
+          "Timing observation: after hover-dropdown click on dropdown-performance-ads and waiting 500ms post wait_for_url, document.title was still the default 'Vibify — Make Brands Impossible to Ignore' (not 'Performance Ads — Vibify'). Direct goto to /services/performance-ads sets the correct title. Likely cause: AnimatePresence mode='wait' delays new-page mount until old-page exit (~350ms) + framer transition before useEffect (which sets document.title) runs. Not a functional bug — title resolves shortly after — but a quick check (waiting longer or moving title set into a top-level effect) would make SPA title transitions snappier and avoid the stale-title flash in the browser tab during the cross-fade."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_2.json"
+  ],
+  "action_items": [
+    "Fix WordReveal whitespace (insert ' ' between word spans) in /app/frontend/src/pages/ServicePage.jsx (and ideally share with /app/frontend/src/components/landing/Hero.jsx) for a11y/SEO.",
+    "Optional polish: ensure document.title updates fire even during framer-motion AnimatePresence transitions (e.g., set title in a useLayoutEffect or in the route element wrapper, not after exit animation completes)."
+  ],
+  "critical_code_review_comments": [
+    "ServicePage.jsx is well-structured (~300 lines, single responsibility). Data lives in services.js — clean separation.",
+    "ServicePage re-exports `services` (export { services }) which is unusual and could create circular-import risk; importing directly from data/services.js is cleaner.",
+    "WordReveal is duplicated logic between Hero.jsx and ServicePage.jsx with the same whitespace bug — extract into a shared component /components/landing/WordReveal.jsx to fix once.",
+    "service-page-{slug} testid on root is good. Showcase, features, process, stats, related all have stable testids. Nice work.",
+    "No unique partial index on (type,email) for newsletter — pre-existing race condition flagged in iteration_1, still applies."
+  ],
+  "updated_files": [],
+  "success_rate": {
+    "backend": "n/a (frontend-only retest; backend untouched, prior 100%)",
+    "frontend": "100% (17/17 flows: homepage cards, 8-route direct nav, all section testids, dropdown 8 items, related nav, logo home, invalid-email validation, contact submit POST /api/contact, booking submit POST /api/booking, /admin still lists submissions)"
+  },
+  "test_credentials": "N/A - no auth.",
+  "seed_data_creation": "Created TEST_ContactSubmission (TEST_service_1782376380@example.com) and TEST_BookingSubmission (TEST_booking_1782376381@example.com) via dialog submits. Visible in /admin (Total now 13). Not auto-cleaned — safe to leave (prefix TEST_).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Public URL: REACT_APP_BACKEND_URL=https://vibify-bold.preview.emergentagent.com. Services dropdown opens on HOVER (mouseenter) — use page.hover before click. After SPA route change allow 400–600ms for framer AnimatePresence mode='wait' transition before asserting testids; for document.title via dropdown, allow ~800ms to be safe. CountUp animates so service-stat-* text may show intermediate values (e.g. '127+' before reaching '250+'); assert presence/visibility, not exact number, unless waiting ~2s. ContactDialog is shared for both modes — same testids contact-name-input / contact-email-input / contact-message-input / contact-submit-button / contact-success / field-error work for service-start-cta (contact) AND service-book-cta (booking).",
+  "rca of the issue": "No new bugs reproduced. Pre-existing WordReveal whitespace issue replicated in ServicePage.jsx — RCA identical to iteration_1 Hero.jsx: each word rendered as <span class='inline-block'><motion.span>{word}</motion.span></span> with no whitespace text node between siblings; visual spacing comes from CSS margin (mr-[0.25em]). Mitigation: extract into shared WordReveal component and emit ' ' between word spans, or set whitespace-pre on parent and include real spaces in the mapped source."
+}
