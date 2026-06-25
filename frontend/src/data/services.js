@@ -4,6 +4,7 @@ import {
   TrendingUp, Award, ShieldCheck, CalendarClock, Sparkles, Video, Users2,
   Camera, Handshake, FileText, LineChart, Search, Repeat, MousePointerClick,
   Layout, Gauge, Smartphone, ShoppingCart, Boxes, Box, Home, KeyRound, Cuboid,
+  Globe, Film, Workflow, Headset,
 } from "lucide-react";
 
 export const services = [
@@ -327,12 +328,13 @@ export const services = [
       captions: ["Modern architecture", "Smart interiors", "Property showcases"],
     },
     whatWeDo: [
-      { icon: Megaphone, title: "Property Marketing", desc: "Campaigns that make listings irresistible." },
-      { icon: Layout, title: "Listing Platforms", desc: "Beautiful, fast platforms that convert." },
-      { icon: Cuboid, title: "Virtual Tours / 3D", desc: "Immersive walkthroughs that sell remotely." },
-      { icon: Boxes, title: "CRM Integrations", desc: "Connected pipelines, zero leads lost." },
-      { icon: MousePointerClick, title: "Lead-gen Funnels", desc: "Qualified buyers, on autopilot." },
-      { icon: Home, title: "Property Microsites", desc: "Branded sites for flagship developments." },
+      { icon: Globe, title: "Web Walkthroughs", desc: "Interactive online tours buyers explore from anywhere." },
+      { icon: Cuboid, title: "Digital Twins", desc: "Precise 3D replicas of every property and space." },
+      { icon: Film, title: "Cinematic Walkthroughs", desc: "Filmic property videos that sell the lifestyle." },
+      { icon: Boxes, title: "CRM Integrations", desc: "Connected pipelines so no lead slips through." },
+      { icon: Workflow, title: "Lead Automation", desc: "Capture, qualify, and nurture buyers on autopilot." },
+      { icon: Box, title: "Immersive Rooms", desc: "Configurable spaces buyers can personalize live." },
+      { icon: Headset, title: "AR / VR Experiences", desc: "Step inside properties in full augmented and virtual reality." },
     ],
     process: [
       { title: "Strategize", desc: "We map the buyer journey for your properties." },
