@@ -78,6 +78,14 @@ module.exports = {
           '0%': { transform: 'translateX(-120%) skewX(-20deg)' },
           '100%': { transform: 'translateX(220%) skewX(-20deg)' },
         },
+        'spin-slow': {
+          to: { transform: 'rotate(360deg)' },
+        },
+        blob: {
+          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)', borderRadius: '42% 58% 60% 40% / 50% 40% 60% 50%' },
+          '33%': { transform: 'translate(36px, -28px) scale(1.12)', borderRadius: '60% 40% 50% 50% / 40% 60% 40% 60%' },
+          '66%': { transform: 'translate(-28px, 24px) scale(0.92)', borderRadius: '40% 60% 45% 55% / 60% 45% 55% 40%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -86,6 +94,8 @@ module.exports = {
         'gradient-shift': 'gradient-shift 8s ease infinite',
         'float-slow': 'float-slow 14s ease-in-out infinite',
         'bounce-soft': 'bounce-soft 2s ease-in-out infinite',
+        'spin-slow': 'spin-slow 50s linear infinite',
+        blob: 'blob 16s ease-in-out infinite',
       }
     }
   },

@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { services } from "../../data/services";
 
 const cardVariants = {
@@ -12,13 +12,16 @@ const cardVariants = {
   }),
 };
 
-export const Services = () => {
+export const Services = ({ onTalk }) => {
+  const reduced = useReducedMotion();
+  const cardInitial = reduced ? false : "hidden";
+
   return (
     <section id="services" data-testid="services-section" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-2xl">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-sm uppercase tracking-[0.25em] text-cyan"
@@ -26,7 +29,7 @@ export const Services = () => {
             What we do
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 24 }}
+            initial={reduced ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
@@ -45,7 +48,7 @@ export const Services = () => {
               key={s.slug}
               custom={i}
               variants={cardVariants}
-              initial="hidden"
+              initial={cardInitial}
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
               whileHover={{ y: -8 }}
@@ -65,6 +68,32 @@ export const Services = () => {
               </Link>
             </motion.div>
           ))}
+
+          {/* 9th gradient CTA tile fills the empty slot */}
+          <motion.div
+            custom={services.length}
+            variants={cardVariants}
+            initial={cardInitial}
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            whileHover={{ y: -8 }}
+          >
+            <button
+              onClick={onTalk}
+              data-testid="services-cta-tile"
+              className="group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl bg-vibe-gradient-animated animate-gradient-shift p-7 text-left text-white transition-transform"
+            >
+              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, white, transparent 45%)" }} />
+              <div className="relative">
+                <h3 className="font-display text-2xl font-medium leading-tight">Not sure where to start?</h3>
+                <p className="mt-3 text-white/85">Tell us your goals — we'll map the play.</p>
+              </div>
+              <span className="relative mt-6 inline-flex items-center gap-2 font-semibold">
+                Let's talk
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </span>
+            </button>
+          </motion.div>
         </div>
       </div>
     </section>

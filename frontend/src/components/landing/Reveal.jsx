@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const variants = {
   hidden: { opacity: 0, y: 40 },
@@ -9,8 +9,17 @@ const variants = {
   }),
 };
 
+// Reveal enhances content as it scrolls in, but never permanently hides it:
+// under prefers-reduced-motion it renders fully visible with no animation.
 export const Reveal = ({ children, delay = 0, className = "", as = "div" }) => {
+  const reduced = useReducedMotion();
   const MotionTag = motion[as] || motion.div;
+
+  if (reduced) {
+    const Tag = as;
+    return <Tag className={className}>{children}</Tag>;
+  }
+
   return (
     <MotionTag
       className={className}
@@ -18,7 +27,7 @@ export const Reveal = ({ children, delay = 0, className = "", as = "div" }) => {
       variants={variants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
+      viewport={{ once: true, amount: 0.2 }}
     >
       {children}
     </MotionTag>

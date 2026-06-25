@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Twitter, Instagram, Linkedin, Youtube, Loader2, Check } from "lucide-react";
 import { toast } from "sonner";
 import { submitNewsletter } from "../../lib/api";
+import { services } from "../../data/services";
 
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
@@ -12,9 +14,11 @@ const socials = [
   { icon: Youtube, label: "YouTube" },
 ];
 
-const navCols = [
-  { title: "Company", links: ["Services", "Work", "About", "Contact"] },
-  { title: "Services", links: ["Brand Strategy", "Public Relations", "Social Media", "Performance Ads"] },
+const companyLinks = [
+  { label: "Services", to: "/#services" },
+  { label: "Work", to: "/#work" },
+  { label: "About", to: "/#process" },
+  { label: "Contact", to: "/#footer" },
 ];
 
 export const Footer = ({ onTalk }) => {
@@ -44,9 +48,9 @@ export const Footer = ({ onTalk }) => {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.5fr]">
           <div>
-            <a href="#top" className="font-display text-3xl font-semibold tracking-tight">
+            <Link to="/" className="font-display text-3xl font-semibold tracking-tight">
               Vib<span className="text-gradient">ify</span>
-            </a>
+            </Link>
             <p className="mt-4 max-w-xs text-textMuted">
               The marketing & PR agency that turns attention into momentum.
             </p>
@@ -65,20 +69,37 @@ export const Footer = ({ onTalk }) => {
             </div>
           </div>
 
-          {navCols.map((col) => (
-            <div key={col.title}>
-              <h4 className="font-display text-lg">{col.title}</h4>
-              <ul className="mt-4 space-y-3">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <a href="#services" className="link-wipe text-textMuted hover:text-textPrimary transition-colors">
-                      {l}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Company column */}
+          <div>
+            <h4 className="font-display text-lg">Company</h4>
+            <ul className="mt-4 space-y-3">
+              {companyLinks.map((l) => (
+                <li key={l.label}>
+                  <Link to={l.to} className="link-wipe text-textMuted hover:text-textPrimary transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services column — all 8 */}
+          <div>
+            <h4 className="font-display text-lg">Services</h4>
+            <ul className="mt-4 space-y-3">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link
+                    to={`/services/${s.slug}`}
+                    data-testid={`footer-service-${s.slug}`}
+                    className="link-wipe text-textMuted hover:text-textPrimary transition-colors"
+                  >
+                    {s.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div>
             <h4 className="font-display text-lg">Stay in the loop</h4>

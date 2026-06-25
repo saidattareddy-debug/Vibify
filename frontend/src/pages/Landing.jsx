@@ -27,7 +27,7 @@ export default function Landing() {
         <Hero onTalk={openTalk} onWork={scrollToWork} />
         <LogoMarquee />
         <Stats />
-        <Services />
+        <Services onTalk={openTalk} />
         <Work />
         <Process />
         <Testimonials />
