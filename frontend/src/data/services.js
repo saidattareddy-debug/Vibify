@@ -133,7 +133,7 @@ export const services = [
     ],
     related: ["influencer-campaigns", "content-creative", "performance-ads"],
     seo: {
-      title: "Social Media Marketing — Vibify",
+      title: "Social Media Marketing Agency — Growth & Content | Vibify",
       description: "Scroll-stopping content and community growth across every platform. Social strategy, video, and engagement that convert.",
     },
   },
