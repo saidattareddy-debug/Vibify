@@ -1,0 +1,127 @@
+from fastapi import FastAPI, APIRouter, HTTPException
+from dotenv import load_dotenv
+from starlette.middleware.cors import CORSMiddleware
+from motor.motor_asyncio import AsyncIOMotorClient
+import os
+import logging
+from pathlib import Path
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
+from typing import List, Optional, Literal
+import uuid
+from datetime import datetime, timezone
+
+
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env')
+
+mongo_url = os.environ['MONGO_URL']
+client = AsyncIOMotorClient(mongo_url)
+db = client[os.environ['DB_NAME']]
+
+app = FastAPI(title="Vibify API")
+api_router = APIRouter(prefix="/api")
+
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+# ----------------------- Models -----------------------
+class ContactCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=120)
+    email: EmailStr
+    company: Optional[str] = Field(default=None, max_length=160)
+    message: str = Field(..., min_length=1, max_length=4000)
+
+
+class BookingCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=120)
+    email: EmailStr
+    company: Optional[str] = Field(default=None, max_length=160)
+    goal: Optional[str] = Field(default=None, max_length=2000)
+
+
+class NewsletterCreate(BaseModel):
+    email: EmailStr
+
+
+class Submission(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    type: Literal["contact", "booking", "newsletter"]
+    name: Optional[str] = None
+    email: str
+    company: Optional[str] = None
+    message: Optional[str] = None
+    goal: Optional[str] = None
+    created_at: str = Field(default_factory=now_iso)
+
+
+# ----------------------- Routes -----------------------
+@api_router.get("/")
+async def root():
+    return {"message": "Vibify API is live"}
+
+
+async def _save(sub: Submission) -> Submission:
+    await db.submissions.insert_one(sub.model_dump())
+    return sub
+
+
+@api_router.post("/contact", response_model=Submission)
+async def create_contact(payload: ContactCreate):
+    sub = Submission(type="contact", **payload.model_dump())
+    return await _save(sub)
+
+
+@api_router.post("/booking", response_model=Submission)
+async def create_booking(payload: BookingCreate):
+    sub = Submission(type="booking", **payload.model_dump())
+    return await _save(sub)
+
+
+@api_router.post("/newsletter", response_model=Submission)
+async def create_newsletter(payload: NewsletterCreate):
+    existing = await db.submissions.find_one(
+        {"type": "newsletter", "email": payload.email}, {"_id": 0}
+    )
+    if existing:
+        return Submission(**existing)
+    sub = Submission(type="newsletter", email=payload.email)
+    return await _save(sub)
+
+
+@api_router.get("/submissions", response_model=List[Submission])
+async def list_submissions(type: Optional[str] = None):
+    query = {"type": type} if type else {}
+    docs = await db.submissions.find(query, {"_id": 0}).sort("created_at", -1).to_list(2000)
+    return [Submission(**d) for d in docs]
+
+
+@api_router.get("/stats")
+async def get_stats():
+    total = await db.submissions.count_documents({})
+    contact = await db.submissions.count_documents({"type": "contact"})
+    booking = await db.submissions.count_documents({"type": "booking"})
+    newsletter = await db.submissions.count_documents({"type": "newsletter"})
+    return {"total": total, "contact": contact, "booking": booking, "newsletter": newsletter}
+
+
+app.include_router(api_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    client.close()
