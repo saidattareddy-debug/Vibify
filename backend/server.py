@@ -92,9 +92,17 @@ async def create_newsletter(payload: NewsletterCreate):
 
 
 @api_router.get("/submissions", response_model=List[Submission])
-async def list_submissions(type: Optional[str] = None):
+async def list_submissions(type: Optional[str] = None, limit: int = 200, skip: int = 0):
+    limit = max(1, min(limit, 1000))
+    skip = max(0, skip)
     query = {"type": type} if type else {}
-    docs = await db.submissions.find(query, {"_id": 0}).sort("created_at", -1).to_list(2000)
+    docs = (
+        await db.submissions.find(query, {"_id": 0})
+        .sort("created_at", -1)
+        .skip(skip)
+        .limit(limit)
+        .to_list(limit)
+    )
     return [Submission(**d) for d in docs]
 
 
