@@ -25,7 +25,7 @@ export const Work = () => {
             </h2>
           </div>
           <p className="max-w-sm text-textMuted">
-            A snapshot of brands we made impossible to ignore. Your case study could be next.
+            A snapshot of brands we made impossible to ignore. Your brand could be next.
           </p>
         </div>
 

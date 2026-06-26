@@ -1,4 +1,4 @@
-const SITE_URL = "https://vibifymarketing.com";
+const SITE_URL = process.env.REACT_APP_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "https://vibifymarketing.com");
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 
 // Uses React 19 native document metadata: <title>/<meta>/<link> rendered here
