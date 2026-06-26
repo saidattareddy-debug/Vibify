@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import Landing from "@/pages/Landing";
 import ServicePage from "@/pages/ServicePage";
+import About from "@/pages/About";
 import Admin from "@/pages/Admin";
 import ScrollManager from "@/components/landing/ScrollManager";
 
@@ -27,6 +28,7 @@ function AnimatedRoutes() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageWrap><Landing /></PageWrap>} />
           <Route path="/services/:slug" element={<PageWrap><ServicePage /></PageWrap>} />
+          <Route path="/about" element={<PageWrap><About /></PageWrap>} />
           <Route path="/admin" element={<PageWrap><Admin /></PageWrap>} />
         </Routes>
       </AnimatePresence>

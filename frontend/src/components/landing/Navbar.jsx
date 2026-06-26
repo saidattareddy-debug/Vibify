@@ -7,7 +7,7 @@ import { services } from "../../data/services";
 
 const sectionLinks = [
   { label: "Work", to: "/#work" },
-  { label: "About", to: "/#process" },
+  { label: "About", to: "/about" },
   { label: "Contact", to: "/#footer" },
 ];
 

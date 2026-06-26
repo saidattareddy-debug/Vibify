@@ -71,6 +71,7 @@
     "crawl": false,
     "include": [
       "/",
+      "/about",
       "/services/brand-strategy",
       "/services/content-creative",
       "/services/influencer-campaigns",
