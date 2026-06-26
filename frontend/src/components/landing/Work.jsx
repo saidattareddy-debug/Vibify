@@ -2,12 +2,15 @@ import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
 const work = [
-  { img: "https://images.unsplash.com/photo-1512242712282-774a8bc0d9d3?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Bold Launch", client: "Quake", result: "+412% reach", tall: true },
-  { img: "https://images.pexels.com/photos/11034423/pexels-photo-11034423.jpeg?auto=compress&cs=tinysrgb&w=1200", name: "Gen-Z Takeover", client: "Big Bull", result: "+285% reach" },
-  { img: "https://images.unsplash.com/photo-1661659739121-bfdc4223280d?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Outdoor Domination", client: "Monastery", result: "+340% reach" },
-  { img: "https://images.pexels.com/photos/8638608/pexels-photo-8638608.jpeg?auto=compress&cs=tinysrgb&w=1200", name: "Creator Network", client: "The Happy Yard", result: "+228% reach", tall: true },
-  { img: "https://images.unsplash.com/photo-1744686909358-915e14866592?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "Content Engine", client: "Kompound", result: "+196% reach" },
-  { img: "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200", name: "PR Blitz", client: "Quake", result: "+410% reach" },
+  { img: "/works/work-8.jpg", name: "Black Coffee — Live", client: "Headline Act", result: "+412% reach", tall: true },
+  { img: "/works/work-1.jpg", name: "Laser Nights", client: "Event Curation", result: "+356% reach" },
+  { img: "/works/work-5.jpg", name: "Arena Live", client: "Event Curation", result: "+298% reach" },
+  { img: "/works/work-2.jpg", name: "Mainstage Takeover", client: "Event Curation", result: "+340% reach", tall: true },
+  { img: "/works/work-7.jpg", name: "Laser Sessions", client: "Event Curation", result: "+264% reach" },
+  { img: "/works/work-3.jpg", name: "Festival Grounds", client: "Event Curation", result: "+228% reach" },
+  { img: "/works/work-4.jpg", name: "Club Series", client: "Event Curation", result: "+310% reach" },
+  { img: "/works/work-6.jpg", name: "Aurora Set", client: "Event Curation", result: "+196% reach" },
+  { img: "/works/work-9.jpg", name: "Crowd Energy", client: "Event Curation", result: "+278% reach" },
 ];
 
 export const Work = () => {
