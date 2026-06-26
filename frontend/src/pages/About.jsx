@@ -125,8 +125,9 @@ export default function About() {
       </section>
 
       {/* 2. BIO / STORY */}
-      <section className="relative py-16 sm:py-24">
-        <div className="mx-auto max-w-4xl px-6">
+      <section className="relative py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-3xl">
           <Reveal>
             <p className="font-display text-2xl sm:text-3xl lg:text-[2.4rem] leading-[1.3] font-medium tracking-tight">
               Let's be real: the digital space is crowded. Everyone is shouting, but very few are actually being <span className="text-gradient">heard.</span>
@@ -139,7 +140,7 @@ export default function About() {
           </Reveal>
 
           <Reveal>
-            <h2 className="mt-14 font-display text-3xl sm:text-4xl font-semibold tracking-tight">From London, with hustle.</h2>
+            <h2 className="mt-16 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight">From London, with hustle.</h2>
           </Reveal>
           <Reveal delay={1}>
             <p className="mt-5 text-lg text-textMuted leading-relaxed">
@@ -153,27 +154,28 @@ export default function About() {
           </Reveal>
 
           <Reveal>
-            <h2 className="mt-14 font-display text-3xl sm:text-4xl font-semibold tracking-tight">The vision <span className="text-textMuted text-2xl sm:text-3xl">(aka, how we win)</span></h2>
+            <h2 className="mt-16 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight">The vision <span className="text-textMuted text-3xl sm:text-4xl">(aka, how we win)</span></h2>
           </Reveal>
           <Reveal delay={1}>
             <p className="mt-5 text-lg text-textMuted leading-relaxed">
               That global mindset is the literal DNA of this agency. We're not here to give you copy-and-paste strategies. We merge international business acumen with creative, trend-forward execution to deliver:
             </p>
           </Reveal>
+          </div>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-3">
+          <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {pillars.map((p, i) => (
               <motion.div
                 key={p.title}
                 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.5, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-2xl gradient-border glass p-6"
+                className="rounded-2xl gradient-border glass p-7"
                 data-testid={`about-pillar-${i}`}
               >
                 <div className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-vibe-gradient/10 ring-1 ring-white/10">
                   <p.icon className="h-5 w-5 text-cyan" />
                 </div>
-                <h3 className="font-display text-xl font-medium">{p.title}</h3>
+                <h3 className="font-display text-2xl font-medium">{p.title}</h3>
                 <p className="mt-2 text-textMuted">{p.desc}</p>
               </motion.div>
             ))}
@@ -182,9 +184,9 @@ export default function About() {
       </section>
 
       {/* 3. HIGHLIGHTS */}
-      <section className="relative py-16 sm:py-20">
+      <section className="relative py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {highlights.map((h, i) => (
               <Reveal key={h.label} delay={i}>
                 <div className="flex h-full flex-col items-start gap-4 rounded-2xl border border-white/10 bg-surface/60 p-7" data-testid={`about-highlight-${i}`}>
@@ -205,10 +207,10 @@ export default function About() {
       </section>
 
       {/* 4. PULL-QUOTE */}
-      <section className="relative py-16 sm:py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+      <section className="relative py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 text-center">
           <Reveal>
-            <p className="font-display text-3xl sm:text-5xl font-semibold leading-tight tracking-tight">
+            <p className="mx-auto max-w-5xl font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight">
               Your brand has a story, and the world is waiting to hear it. <span className="text-gradient">Let's make some noise together.</span>
             </p>
           </Reveal>
@@ -216,10 +218,10 @@ export default function About() {
       </section>
 
       {/* 5. CONNECT */}
-      <section className="relative py-12 sm:py-16">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <section className="relative py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 text-center">
           <Reveal>
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight">Let's <span className="text-gradient">connect</span></h2>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight">Let's <span className="text-gradient">connect</span></h2>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
                 href={`mailto:${LINKS.email}`}
