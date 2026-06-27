@@ -3,10 +3,13 @@ const path = require("path");
 
 const shouldSkipForPlatform =
   process.platform === "darwin" && process.arch === "arm64";
+const shouldSkipForCi = process.env.SKIP_REACT_SNAP === "true" || process.env.VERCEL === "1";
 
-if (process.env.SKIP_REACT_SNAP === "true" || shouldSkipForPlatform) {
-  const reason = process.env.SKIP_REACT_SNAP === "true"
-    ? "SKIP_REACT_SNAP=true"
+if (shouldSkipForCi || shouldSkipForPlatform) {
+  const reason = shouldSkipForCi
+    ? process.env.SKIP_REACT_SNAP === "true"
+      ? "SKIP_REACT_SNAP=true"
+      : "VERCEL=1"
     : "react-snap's bundled Puppeteer is not compatible with darwin/arm64";
   console.log(`Skipping react-snap: ${reason}`);
   process.exit(0);
