@@ -2,7 +2,6 @@ from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
@@ -26,6 +25,23 @@ api_router = APIRouter(prefix="/api")
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def frontend_response(file_path: Path) -> FileResponse:
+    rel = file_path.relative_to(FRONTEND_BUILD_DIR).as_posix()
+    suffix = file_path.suffix.lower()
+    headers = {}
+
+    if file_path.name == "index.html":
+        headers["Cache-Control"] = "public, max-age=0, must-revalidate"
+    elif rel.startswith("static/"):
+        headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    elif suffix in {".jpg", ".jpeg", ".png", ".webp", ".avif", ".svg", ".ico"}:
+        headers["Cache-Control"] = "public, max-age=604800, stale-while-revalidate=86400"
+    elif suffix in {".xml", ".txt", ".json"}:
+        headers["Cache-Control"] = "public, max-age=3600, stale-while-revalidate=86400"
+
+    return FileResponse(file_path, headers=headers)
 
 
 def get_database():
@@ -141,12 +157,9 @@ async def get_stats():
 app.include_router(api_router)
 
 if FRONTEND_BUILD_DIR.exists():
-    app.mount("/static", StaticFiles(directory=FRONTEND_BUILD_DIR / "static"), name="static")
-    app.mount("/works", StaticFiles(directory=FRONTEND_BUILD_DIR / "works"), name="works")
-
     @app.get("/", include_in_schema=False)
     async def serve_frontend_root():
-        return FileResponse(FRONTEND_INDEX_FILE)
+        return frontend_response(FRONTEND_INDEX_FILE)
 
     @app.get("/{full_path:path}", include_in_schema=False)
     async def serve_frontend_app(full_path: str):
@@ -155,9 +168,9 @@ if FRONTEND_BUILD_DIR.exists():
 
         target = FRONTEND_BUILD_DIR / full_path
         if target.is_file():
-            return FileResponse(target)
+            return frontend_response(target)
 
-        return FileResponse(FRONTEND_INDEX_FILE)
+        return frontend_response(FRONTEND_INDEX_FILE)
 
 app.add_middleware(
     CORSMiddleware,

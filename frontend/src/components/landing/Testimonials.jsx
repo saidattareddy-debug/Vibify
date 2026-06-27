@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, m as motion } from "framer-motion";
 import { Quote } from "lucide-react";
 
@@ -11,14 +11,32 @@ const testimonials = [
 
 export const Testimonials = () => {
   const [idx, setIdx] = useState(0);
+  const [active, setActive] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % testimonials.length), 5000);
-    return () => clearInterval(t);
+    if (!ref.current) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setActive(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!active) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % testimonials.length), 5000);
+    return () => clearInterval(t);
+  }, [active]);
+
   return (
-    <section data-testid="testimonials-section" className="relative py-24 sm:py-32 overflow-hidden">
+    <section ref={ref} data-testid="testimonials-section" className="relative py-24 sm:py-32 overflow-hidden">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-violet/20 blur-[120px]" />
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <p className="text-sm uppercase tracking-[0.25em] text-cyan">Loved by founders</p>

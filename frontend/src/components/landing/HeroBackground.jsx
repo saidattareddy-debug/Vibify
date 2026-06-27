@@ -28,6 +28,8 @@ export const HeroBackground = () => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setAnimate(!reduced);
     if (reduced) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (window.innerWidth < 1024) return;
 
     let raf;
     const target = { x: 0, y: 0 };
