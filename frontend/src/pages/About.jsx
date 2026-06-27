@@ -14,7 +14,7 @@ import { Seo, SITE } from "../components/Seo";
 const FOUNDER = {
   name: "Geethika Sai Sunkara",
   role: "Founder & CEO, Vibify Marketing & PR",
-  oneLiner: "From London with hustle — I help bold brands stop posting and start telling stories that stick.",
+  oneLiner: "After watching brilliant businesses disappear into crowded feeds, I decided to change the way brands communicate.",
   photo: "/founder.jpg",
 };
 
@@ -130,7 +130,7 @@ export default function About() {
           <div className="mx-auto max-w-3xl">
           <Reveal>
             <p className="font-display text-2xl sm:text-3xl lg:text-[2.4rem] leading-[1.3] font-medium tracking-tight">
-              Let's be real: the digital space is crowded. Everyone is shouting, but very few are actually being <span className="text-gradient">heard.</span>
+              Let's be real the digital space is crowded. Everyone is shouting, but very few are actually being <span className="text-gradient">heard.</span>
             </p>
           </Reveal>
           <Reveal delay={1}>
@@ -158,7 +158,7 @@ export default function About() {
           </Reveal>
           <Reveal delay={1}>
             <p className="mt-5 text-lg text-textMuted leading-relaxed">
-              That global mindset is the literal DNA of this agency. We're not here to give you copy-and-paste strategies. We merge international business acumen with creative, trend-forward execution to deliver:
+              That global mindset is the DNA of this agency. We're not here to give you copy-and-paste strategies. We merge international business acumen with creative, trend-forward execution to deliver:
             </p>
           </Reveal>
           </div>
@@ -228,7 +228,7 @@ export default function About() {
                 data-testid="about-email"
                 className="group inline-flex items-center gap-2 rounded-full bg-vibe-gradient px-7 py-3.5 font-semibold text-white glow-violet transition-transform hover:scale-105"
               >
-                <Mail className="h-5 w-5" /> Email me
+                <Mail className="h-5 w-5" /> Email
               </a>
               <a
                 href={LINKS.linkedin} target="_blank" rel="noopener noreferrer"
