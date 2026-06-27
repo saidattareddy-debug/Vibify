@@ -1,6 +1,8 @@
 from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
@@ -13,6 +15,8 @@ from datetime import datetime, timezone
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
+FRONTEND_BUILD_DIR = ROOT_DIR.parent / "frontend" / "build"
+FRONTEND_INDEX_FILE = FRONTEND_BUILD_DIR / "index.html"
 
 client: Optional[AsyncIOMotorClient] = None
 
@@ -135,6 +139,25 @@ async def get_stats():
 
 
 app.include_router(api_router)
+
+if FRONTEND_BUILD_DIR.exists():
+    app.mount("/static", StaticFiles(directory=FRONTEND_BUILD_DIR / "static"), name="static")
+    app.mount("/works", StaticFiles(directory=FRONTEND_BUILD_DIR / "works"), name="works")
+
+    @app.get("/", include_in_schema=False)
+    async def serve_frontend_root():
+        return FileResponse(FRONTEND_INDEX_FILE)
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_frontend_app(full_path: str):
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="Not Found")
+
+        target = FRONTEND_BUILD_DIR / full_path
+        if target.is_file():
+            return FileResponse(target)
+
+        return FileResponse(FRONTEND_INDEX_FILE)
 
 app.add_middleware(
     CORSMiddleware,
