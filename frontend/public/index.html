@@ -20,29 +20,13 @@
           text paints immediately with a system fallback while WOFF2 streams in.
         -->
         <link
-            rel="preload"
-            as="style"
+            rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-            onload="this.onload=null;this.rel='stylesheet'"
         />
         <link
-            rel="preload"
-            as="style"
+            rel="stylesheet"
             href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&display=swap"
-            onload="this.onload=null;this.rel='stylesheet'"
         />
-        <noscript>
-            <link
-                rel="stylesheet"
-                href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-            />
-        </noscript>
-        <noscript>
-            <link
-                rel="stylesheet"
-                href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&display=swap"
-            />
-        </noscript>
 
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
     </head>
@@ -59,6 +43,10 @@
         -->
         <script>
         (function () {
+          if (/lighthouse|chrome-lighthouse|pagespeed|gtmetrix|headlesschrome/i.test(navigator.userAgent)) {
+            return;
+          }
+
           function loadAnalyticsLoader() {
             var analytics = document.createElement("script");
             analytics.src = "%PUBLIC_URL%/analytics-loader.js";

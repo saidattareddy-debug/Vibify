@@ -1,10 +1,15 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../components/landing/Navbar";
 import Hero from "../components/landing/Hero";
 import LogoMarquee from "../components/landing/LogoMarquee";
 import Stats from "../components/landing/Stats";
 import Services from "../components/landing/Services";
+import Work from "../components/landing/Work";
+import Process from "../components/landing/Process";
+import Testimonials from "../components/landing/Testimonials";
+import CTASection from "../components/landing/CTASection";
+import Footer from "../components/landing/Footer";
 import ScrollProgress from "../components/landing/ScrollProgress";
 import { Seo, SITE } from "../components/Seo";
 
@@ -15,11 +20,6 @@ const ContactDialog = lazy(() => import("../components/landing/ContactDialog"));
 // Preloader is only shown on the very first visit (sessionStorage gate) and
 // includes its own framer-motion animations — lazy-load it too.
 const Preloader = lazy(() => import("../components/landing/Preloader"));
-const Work = lazy(() => import("../components/landing/Work"));
-const Process = lazy(() => import("../components/landing/Process"));
-const Testimonials = lazy(() => import("../components/landing/Testimonials"));
-const CTASection = lazy(() => import("../components/landing/CTASection"));
-const Footer = lazy(() => import("../components/landing/Footer"));
 
 const HOME_TITLE = "Vibify — Marketing & PR Agency That Makes Brands Viral";
 const HOME_DESC =
@@ -51,7 +51,6 @@ export default function Landing() {
   const [dialog, setDialog] = useState({ open: false, mode: "contact" });
   const [dialogMounted, setDialogMounted] = useState(false);
   const [loading, setLoading] = useState(shouldIntro);
-  const [belowFoldReady, setBelowFoldReady] = useState(false);
 
   const openTalk = () => { setDialogMounted(true); setDialog({ open: true, mode: "contact" }); };
   const openBook = () => { setDialogMounted(true); setDialog({ open: true, mode: "booking" }); };
@@ -60,17 +59,6 @@ export default function Landing() {
     sessionStorage.setItem("vibify_intro_seen", "1");
     setLoading(false);
   };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-    const onIdle = () => setBelowFoldReady(true);
-    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 600));
-    const id = ric(onIdle);
-    return () => {
-      if (window.cancelIdleCallback) window.cancelIdleCallback(id);
-      else clearTimeout(id);
-    };
-  }, []);
 
   return (
     <>
@@ -92,20 +80,12 @@ export default function Landing() {
             <LogoMarquee />
             <Stats />
             <Services onTalk={openTalk} />
-            <Suspense fallback={null}>
-              {belowFoldReady && (
-                <>
-                  <Work />
-                  <Process />
-                  <Testimonials />
-                  <CTASection onBook={openBook} />
-                </>
-              )}
-            </Suspense>
+            <Work />
+            <Process />
+            <Testimonials />
+            <CTASection onBook={openBook} />
           </main>
-          <Suspense fallback={null}>
-            {belowFoldReady && <Footer onTalk={openTalk} />}
-          </Suspense>
+          <Footer onTalk={openTalk} />
           {dialogMounted && (
             <Suspense fallback={null}>
               <ContactDialog
