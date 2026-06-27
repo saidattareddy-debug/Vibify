@@ -1,4 +1,5 @@
 import { m as motion, useReducedMotion } from "framer-motion";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 const variants = {
   hidden: { opacity: 0, y: 40 },
@@ -12,7 +13,9 @@ const variants = {
 // Reveal enhances content as it scrolls in, but never permanently hides it:
 // under prefers-reduced-motion it renders fully visible with no animation.
 export const Reveal = ({ children, delay = 0, className = "", as = "div" }) => {
-  const reduced = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const perfReducedMotion = usePerformanceMotion();
+  const reduced = prefersReducedMotion || perfReducedMotion;
   const MotionTag = motion[as] || motion.div;
 
   if (reduced) {

@@ -1,4 +1,3 @@
-import { m as motion } from "framer-motion";
 import Reveal from "./Reveal";
 
 // w/h preserve native aspect ratio so the browser reserves space (no CLS).
@@ -69,13 +68,13 @@ export const Work = () => {
                   />
                 </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent opacity-80 transition-opacity group-hover:opacity-95" />
-                <motion.div className="absolute inset-x-0 bottom-0 p-6 translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
+                <div className="absolute inset-x-0 bottom-0 p-6 translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
                   <p className="text-xs uppercase tracking-widest text-cyan">{w.client}</p>
                   <h3 className="mt-1 font-display text-2xl font-medium">{w.name}</h3>
                   <p className="mt-1 max-h-0 overflow-hidden text-textMuted opacity-0 transition-all duration-500 group-hover:max-h-12 group-hover:opacity-100">
                     {w.result}
                   </p>
-                </motion.div>
+                </div>
               </div>
             </Reveal>
           ))}

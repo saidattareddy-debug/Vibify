@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import HeroBackground from "./HeroBackground";
 import MagneticButton from "./MagneticButton";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 const headline = ["We", "make", "brands", "impossible", "to", "ignore."];
 const logos = ["Quake", "Big Bull", "Monastery", "The Happy Yard", "Kompound"];
@@ -17,6 +18,8 @@ const word = {
 };
 
 export const Hero = ({ onTalk, onWork }) => {
+  const reduceMotion = usePerformanceMotion();
+
   return (
     <section
       id="top"
@@ -27,9 +30,9 @@ export const Hero = ({ onTalk, onWork }) => {
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={reduceMotion ? undefined : { delay: 0.1, duration: 0.6 }}
           className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/15 glass px-4 py-1.5 text-sm text-textMuted"
           data-testid="hero-badge"
         >
@@ -38,9 +41,9 @@ export const Hero = ({ onTalk, onWork }) => {
         </motion.div>
 
         <motion.h1
-          variants={container}
-          initial="hidden"
-          animate="show"
+          variants={reduceMotion ? undefined : container}
+          initial={reduceMotion ? false : "hidden"}
+          animate={reduceMotion ? undefined : "show"}
           className="font-display font-semibold leading-[0.95] tracking-tight text-textPrimary text-5xl sm:text-7xl lg:text-[5.8rem] max-w-5xl"
           data-testid="hero-headline"
           aria-label="We make brands impossible to ignore."
@@ -49,7 +52,7 @@ export const Hero = ({ onTalk, onWork }) => {
             <Fragment key={i}>
               <span className="inline-block overflow-hidden pb-[0.08em]" aria-hidden="true">
                 <motion.span
-                  variants={word}
+                  variants={reduceMotion ? undefined : word}
                   className={`inline-block ${i >= 2 && i <= 4 ? "text-gradient" : ""}`}
                 >
                   {w}
@@ -60,9 +63,9 @@ export const Hero = ({ onTalk, onWork }) => {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85, duration: 0.6 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={reduceMotion ? undefined : { delay: 0.85, duration: 0.6 }}
           className="mt-7 max-w-xl text-lg text-textMuted"
           data-testid="hero-subhead"
         >
@@ -70,9 +73,9 @@ export const Hero = ({ onTalk, onWork }) => {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={reduceMotion ? undefined : { delay: 1, duration: 0.6 }}
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <MagneticButton
@@ -94,9 +97,9 @@ export const Hero = ({ onTalk, onWork }) => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.3, duration: 0.8 }}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={reduceMotion ? undefined : { opacity: 1 }}
+          transition={reduceMotion ? undefined : { delay: 1.3, duration: 0.8 }}
           className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-4"
           data-testid="hero-logos"
         >
@@ -104,8 +107,8 @@ export const Hero = ({ onTalk, onWork }) => {
           {logos.map((l, i) => (
             <motion.span
               key={l}
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
+              animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
+              transition={reduceMotion ? undefined : { duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
               className="font-display text-lg font-medium text-textMuted/60"
             >
               {l}
@@ -116,14 +119,14 @@ export const Hero = ({ onTalk, onWork }) => {
 
       <motion.a
         href="#stats"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={reduceMotion ? undefined : { opacity: 1 }}
+        transition={reduceMotion ? undefined : { delay: 1.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-textMuted"
         data-testid="scroll-indicator"
       >
         <span className="text-xs uppercase tracking-widest">Scroll</span>
-        <ChevronDown className="h-5 w-5 animate-bounce-soft" />
+        <ChevronDown className={`h-5 w-5 ${reduceMotion ? "" : "animate-bounce-soft"}`} />
       </motion.a>
     </section>
   );

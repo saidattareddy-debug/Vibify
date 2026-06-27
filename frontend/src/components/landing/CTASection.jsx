@@ -1,16 +1,18 @@
 import { m as motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import MagneticButton from "./MagneticButton";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 export const CTASection = ({ onBook }) => {
+  const reduceMotion = usePerformanceMotion();
   return (
     <section data-testid="cta-section" className="relative px-6 py-16">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-vibe-gradient-animated animate-gradient-shift p-12 sm:p-20 text-center"
+        transition={reduceMotion ? undefined : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={`relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] p-12 sm:p-20 text-center ${reduceMotion ? "bg-vibe-gradient" : "bg-vibe-gradient-animated animate-gradient-shift"}`}
       >
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, white, transparent 40%)" }} />
         <div className="relative">

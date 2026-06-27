@@ -2,6 +2,7 @@ import { m as motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { services } from "../../data/services-summary";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -13,7 +14,9 @@ const cardVariants = {
 };
 
 export const Services = ({ onTalk }) => {
-  const reduced = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const perfReducedMotion = usePerformanceMotion();
+  const reduced = prefersReducedMotion || perfReducedMotion;
   const cardInitial = reduced ? false : "hidden";
 
   return (
@@ -51,7 +54,7 @@ export const Services = ({ onTalk }) => {
               initial={cardInitial}
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
-              whileHover={{ y: -8 }}
+              whileHover={reduced ? undefined : { y: -8 }}
             >
               <Link
                 to={`/services/${s.slug}`}
@@ -76,12 +79,12 @@ export const Services = ({ onTalk }) => {
             initial={cardInitial}
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
-            whileHover={{ y: -8 }}
+            whileHover={reduced ? undefined : { y: -8 }}
           >
             <button
               onClick={onTalk}
               data-testid="services-cta-tile"
-              className="group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl bg-vibe-gradient-animated animate-gradient-shift p-7 text-left text-white transition-transform"
+              className={`group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl p-7 text-left text-white transition-transform ${reduced ? "bg-vibe-gradient" : "bg-vibe-gradient-animated animate-gradient-shift"}`}
             >
               <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, white, transparent 45%)" }} />
               <div className="relative">

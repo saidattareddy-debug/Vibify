@@ -1,5 +1,6 @@
 import { m as motion } from "framer-motion";
 import { Search, PenTool, Rocket, TrendingUp } from "lucide-react";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 const steps = [
   { icon: Search, title: "Discover", desc: "We dig into your brand, audience, and market to find the angle no one else sees." },
@@ -9,6 +10,7 @@ const steps = [
 ];
 
 export const Process = () => {
+  const reduceMotion = usePerformanceMotion();
   return (
     <section id="process" data-testid="process-section" className="relative py-24 sm:py-32 bg-surface/30 border-y border-white/10">
       <div className="mx-auto max-w-7xl px-6">
@@ -25,10 +27,10 @@ export const Process = () => {
             {steps.map((s, i) => (
               <motion.div
                 key={s.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.55, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                transition={reduceMotion ? undefined : { duration: 0.55, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
                 data-testid={`process-step-${i}`}
               >

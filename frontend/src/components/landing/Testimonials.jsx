@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, m as motion } from "framer-motion";
 import { Quote } from "lucide-react";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 const testimonials = [
   { quote: "Vibify curated our launch event end to end — the room, the guest list, the energy. It wasn't just an event, it was a moment people are still talking about.", name: "Chanukya", role: "" },
@@ -13,6 +14,7 @@ export const Testimonials = () => {
   const [idx, setIdx] = useState(0);
   const [active, setActive] = useState(false);
   const ref = useRef(null);
+  const reduceMotion = usePerformanceMotion();
 
   useEffect(() => {
     if (!ref.current) return;
@@ -30,10 +32,11 @@ export const Testimonials = () => {
   }, []);
 
   useEffect(() => {
+    if (reduceMotion) return;
     if (!active) return;
     const t = setInterval(() => setIdx((i) => (i + 1) % testimonials.length), 5000);
     return () => clearInterval(t);
-  }, [active]);
+  }, [active, reduceMotion]);
 
   return (
     <section ref={ref} data-testid="testimonials-section" className="relative py-24 sm:py-32 overflow-hidden">
@@ -41,13 +44,8 @@ export const Testimonials = () => {
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <p className="text-sm uppercase tracking-[0.25em] text-cyan">Loved by founders</p>
         <div className="relative mt-10 min-h-[260px] sm:min-h-[220px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -24 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          {reduceMotion ? (
+            <div
               data-testid="testimonial-card"
               className="rounded-3xl border border-white/10 glass p-8 sm:p-12"
             >
@@ -59,8 +57,29 @@ export const Testimonials = () => {
                 <p className="font-semibold text-textPrimary">{testimonials[idx].name}</p>
                 {testimonials[idx].role && <p className="text-textMuted">{testimonials[idx].role}</p>}
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                data-testid="testimonial-card"
+                className="rounded-3xl border border-white/10 glass p-8 sm:p-12"
+              >
+                <Quote className="mx-auto mb-6 h-10 w-10 text-magenta" />
+                <p className="font-display text-2xl sm:text-3xl font-medium leading-snug text-textPrimary">
+                  "{testimonials[idx].quote}"
+                </p>
+                <div className="mt-8">
+                  <p className="font-semibold text-textPrimary">{testimonials[idx].name}</p>
+                  {testimonials[idx].role && <p className="text-textMuted">{testimonials[idx].role}</p>}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
 
         <div className="mt-8 flex justify-center gap-2">

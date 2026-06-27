@@ -4,6 +4,7 @@ import { m as motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
 import { services } from "../../data/services-summary";
+import usePerformanceMotion from "../../hooks/use-performance-motion";
 
 const sectionLinks = [
   { label: "Work", to: "/#work" },
@@ -12,6 +13,7 @@ const sectionLinks = [
 ];
 
 export const Navbar = ({ onTalk }) => {
+  const reduceMotion = usePerformanceMotion();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -26,9 +28,9 @@ export const Navbar = ({ onTalk }) => {
 
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      initial={reduceMotion ? false : { y: -80, opacity: 0 }}
+      animate={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+      transition={reduceMotion ? undefined : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       data-testid="navbar"
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled ? "glass border-b border-white/10 py-3" : "bg-transparent py-5"
