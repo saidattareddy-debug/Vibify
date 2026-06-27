@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd frontend && PUPPETEER_SKIP_DOWNLOAD=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 SKIP_REACT_SNAP=true npm ci && SKIP_REACT_SNAP=true npm run build",
-  "outputDirectory": "frontend/build",
+  "buildCommand": "rm -rf public && cd frontend && PUPPETEER_SKIP_DOWNLOAD=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 SKIP_REACT_SNAP=true npm ci && SKIP_REACT_SNAP=true npm run build && cp -R build ../public",
+  "outputDirectory": "public",
   "routes": [
     {
       "src": "/api/(.*)",
