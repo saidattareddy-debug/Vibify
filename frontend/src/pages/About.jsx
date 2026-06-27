@@ -129,7 +129,7 @@ export default function About() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="mx-auto max-w-3xl">
           <Reveal>
-            <p className="font-display text-2xl sm:text-3xl lg:text-[2.4rem] leading-[1.3] font-medium tracking-tight">
+            <p className="max-w-[18ch] font-display text-2xl sm:text-3xl lg:text-[2.4rem] leading-[1.38] font-medium tracking-normal">
               Let's be real, the digital space is crowded. Everyone is shouting, but very few are actually being <span className="text-gradient">heard.</span>
             </p>
           </Reveal>
