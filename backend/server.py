@@ -14,9 +14,7 @@ from datetime import datetime, timezone
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+client: Optional[AsyncIOMotorClient] = None
 
 app = FastAPI(title="Vibify API")
 api_router = APIRouter(prefix="/api")
@@ -24,6 +22,23 @@ api_router = APIRouter(prefix="/api")
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def get_database():
+    global client
+
+    mongo_url = os.environ.get("MONGO_URL")
+    db_name = os.environ.get("DB_NAME")
+    if not mongo_url or not db_name:
+        raise HTTPException(
+            status_code=500,
+            detail="Backend database is not configured. Set MONGO_URL and DB_NAME.",
+        )
+
+    if client is None:
+        client = AsyncIOMotorClient(mongo_url)
+
+    return client[db_name]
 
 
 # ----------------------- Models -----------------------
@@ -64,6 +79,7 @@ async def root():
 
 
 async def _save(sub: Submission) -> Submission:
+    db = get_database()
     await db.submissions.insert_one(sub.model_dump())
     return sub
 
@@ -82,6 +98,7 @@ async def create_booking(payload: BookingCreate):
 
 @api_router.post("/newsletter", response_model=Submission)
 async def create_newsletter(payload: NewsletterCreate):
+    db = get_database()
     existing = await db.submissions.find_one(
         {"type": "newsletter", "email": payload.email}, {"_id": 0}
     )
@@ -93,6 +110,7 @@ async def create_newsletter(payload: NewsletterCreate):
 
 @api_router.get("/submissions", response_model=List[Submission])
 async def list_submissions(type: Optional[str] = None, limit: int = 200, skip: int = 0):
+    db = get_database()
     limit = max(1, min(limit, 1000))
     skip = max(0, skip)
     query = {"type": type} if type else {}
@@ -108,6 +126,7 @@ async def list_submissions(type: Optional[str] = None, limit: int = 200, skip: i
 
 @api_router.get("/stats")
 async def get_stats():
+    db = get_database()
     total = await db.submissions.count_documents({})
     contact = await db.submissions.count_documents({"type": "contact"})
     booking = await db.submissions.count_documents({"type": "booking"})
@@ -132,4 +151,5 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    client.close()
+    if client is not None:
+        client.close()
