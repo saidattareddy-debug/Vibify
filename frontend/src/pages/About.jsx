@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Crosshair, Sparkles, LineChart, GraduationCap, Rocket, Globe, TrendingUp, Mail, Linkedin, ArrowRight } from "lucide-react";
 import Navbar from "../components/landing/Navbar";
 import Footer from "../components/landing/Footer";

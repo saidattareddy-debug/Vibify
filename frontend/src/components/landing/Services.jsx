@@ -1,7 +1,7 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { m as motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
-import { services } from "../../data/services";
+import { services } from "../../data/services-summary";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },

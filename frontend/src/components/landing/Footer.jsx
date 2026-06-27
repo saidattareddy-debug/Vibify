@@ -1,11 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Twitter, Instagram, Linkedin, Youtube, Loader2, Check } from "lucide-react";
-import { toast } from "sonner";
-import { submitNewsletter } from "../../lib/api";
-import { services } from "../../data/services";
+import { services } from "../../data/services-summary";
 
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+// Dynamic import keeps sonner OUT of the initial homepage bundle.
+const fireToast = async (kind, msg) => {
+  const { toast } = await import("sonner");
+  (toast[kind] || toast)(msg);
+};
+
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+// fetch() instead of axios so the homepage doesn't ship axios (~43KB) just for
+// one newsletter POST. The full axios client is loaded only inside
+// ContactDialog/Admin (which are lazy-loaded).
+const postNewsletter = (email) =>
+  fetch(`${API}/newsletter`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  }).then((r) => {
+    if (!r.ok) throw new Error("failed");
+    return r.json();
+  });
 
 const socials = [
   { icon: Twitter, label: "Twitter" },
@@ -28,18 +46,18 @@ export const Footer = ({ onTalk }) => {
   const subscribe = async (e) => {
     e.preventDefault();
     if (!isEmail(email)) {
-      toast.error("Please enter a valid email");
+      fireToast("error", "Please enter a valid email");
       return;
     }
     setState("loading");
     try {
-      await submitNewsletter(email);
+      await postNewsletter(email);
       setState("done");
-      toast.success("You're subscribed! 🎉");
+      fireToast("success", "You're subscribed! 🎉");
       setEmail("");
     } catch {
       setState("idle");
-      toast.error("Subscription failed. Try again.");
+      fireToast("error", "Subscription failed. Try again.");
     }
   };
 

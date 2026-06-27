@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getService, services } from "../data/services";
 import Navbar from "../components/landing/Navbar";

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../components/landing/Navbar";
 import Hero from "../components/landing/Hero";
@@ -11,9 +11,15 @@ import Testimonials from "../components/landing/Testimonials";
 import CTASection from "../components/landing/CTASection";
 import Footer from "../components/landing/Footer";
 import ScrollProgress from "../components/landing/ScrollProgress";
-import ContactDialog from "../components/landing/ContactDialog";
-import Preloader from "../components/landing/Preloader";
 import { Seo, SITE } from "../components/Seo";
+
+// Heavy modal — only mount once user has clicked "Let's talk" / "Book a call".
+// Keeps axios, Radix Dialog, and the form code OUT of the initial homepage bundle.
+const ContactDialog = lazy(() => import("../components/landing/ContactDialog"));
+
+// Preloader is only shown on the very first visit (sessionStorage gate) and
+// includes its own framer-motion animations — lazy-load it too.
+const Preloader = lazy(() => import("../components/landing/Preloader"));
 
 const HOME_TITLE = "Vibify — Marketing & PR Agency That Makes Brands Viral";
 const HOME_DESC =
@@ -42,10 +48,11 @@ const shouldIntro = () => {
 
 export default function Landing() {
   const [dialog, setDialog] = useState({ open: false, mode: "contact" });
+  const [dialogMounted, setDialogMounted] = useState(false);
   const [loading, setLoading] = useState(shouldIntro);
 
-  const openTalk = () => setDialog({ open: true, mode: "contact" });
-  const openBook = () => setDialog({ open: true, mode: "booking" });
+  const openTalk = () => { setDialogMounted(true); setDialog({ open: true, mode: "contact" }); };
+  const openBook = () => { setDialogMounted(true); setDialog({ open: true, mode: "booking" }); };
   const scrollToWork = () => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
   const finishIntro = () => {
     sessionStorage.setItem("vibify_intro_seen", "1");
@@ -56,7 +63,11 @@ export default function Landing() {
     <>
       <Seo title={HOME_TITLE} description={HOME_DESC} path="/" jsonLd={ORG_JSONLD} />
       <AnimatePresence>
-        {loading && <Preloader key="preloader" onDone={finishIntro} />}
+        {loading && (
+          <Suspense fallback={null}>
+            <Preloader key="preloader" onDone={finishIntro} />
+          </Suspense>
+        )}
       </AnimatePresence>
 
       {!loading && (
@@ -74,11 +85,15 @@ export default function Landing() {
             <CTASection onBook={openBook} />
           </main>
           <Footer onTalk={openTalk} />
-          <ContactDialog
-            open={dialog.open}
-            mode={dialog.mode}
-            onOpenChange={(open) => setDialog((d) => ({ ...d, open }))}
-          />
+          {dialogMounted && (
+            <Suspense fallback={null}>
+              <ContactDialog
+                open={dialog.open}
+                mode={dialog.mode}
+                onOpenChange={(open) => setDialog((d) => ({ ...d, open }))}
+              />
+            </Suspense>
+          )}
         </div>
       )}
     </>

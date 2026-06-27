@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Fragment } from "react";
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import HeroBackground from "./HeroBackground";

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m as motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
-import { services } from "../../data/services";
+import { services } from "../../data/services-summary";
 
 const sectionLinks = [
   { label: "Work", to: "/#work" },

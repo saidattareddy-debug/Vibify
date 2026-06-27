@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Check, Loader2, Send } from "lucide-react";
 import { submitContact, submitBooking } from "../../lib/api";
 

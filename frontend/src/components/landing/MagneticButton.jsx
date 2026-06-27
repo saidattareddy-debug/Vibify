@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 
 export const MagneticButton = ({ children, className = "", strength = 0.4, ...props }) => {
   const ref = useRef(null);

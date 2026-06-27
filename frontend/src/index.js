@@ -1,23 +1,15 @@
 import React from "react";
 import { hydrateRoot, createRoot } from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@/index.css";
 import App from "@/App";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60_000,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+// NOTE: @tanstack/react-query was previously wired up here but never actually
+// used anywhere in src/. Removing it saves ~28KB (decoded) from the homepage
+// JS payload. Add it back wrapped around <App /> only if you adopt useQuery.
 
 const app = (
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <App />
   </React.StrictMode>
 );
 
