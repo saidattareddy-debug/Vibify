@@ -22,15 +22,32 @@ export default function Admin() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const load = async () => {
+  const load = async (selectedType = type) => {
     setLoading(true);
-    const [subs, st] = await Promise.all([getSubmissions(type), getStats()]);
+    const [subs, st] = await Promise.all([getSubmissions(selectedType), getStats()]);
     setRows(subs);
     setStats(st);
     setLoading(false);
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [type]);
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadForType() {
+      setLoading(true);
+      const [subs, st] = await Promise.all([getSubmissions(type), getStats()]);
+      if (cancelled) return;
+      setRows(subs);
+      setStats(st);
+      setLoading(false);
+    }
+
+    void loadForType();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [type]);
 
   return (
     <div className="min-h-screen bg-ink text-textPrimary" data-testid="admin-page">
@@ -43,7 +60,7 @@ export default function Admin() {
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="flex items-center justify-between">
           <h1 className="font-display text-4xl font-semibold">Vibify <span className="text-gradient">Inbox</span></h1>
-          <button onClick={load} data-testid="admin-refresh" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm hover:bg-white/5">
+          <button onClick={() => void load()} data-testid="admin-refresh" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm hover:bg-white/5">
             <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh
           </button>
         </div>
