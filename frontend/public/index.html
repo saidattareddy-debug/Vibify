@@ -8,25 +8,10 @@
         <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png?v=2" />
         <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png?v=2" />
 
-        <!-- ─── Resource hints for font CDNs (DNS + TLS warm) ─── -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-        <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-
-        <!--
-          Fonts (consolidated to ONE Inter request + Clash Display with only the
-          weights actually used: 500 medium, 600 semibold). font-display: swap so
-          text paints immediately with a system fallback while WOFF2 streams in.
-        -->
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        />
-        <link
-            rel="stylesheet"
-            href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&display=swap"
-        />
+        <link rel="preload" href="%PUBLIC_URL%/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="%PUBLIC_URL%/fonts/clash-display-500.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="%PUBLIC_URL%/fonts/clash-display-600.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="%PUBLIC_URL%/fonts.css" />
 
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
     </head>

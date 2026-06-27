@@ -44,7 +44,7 @@ export const Hero = ({ onTalk, onWork }) => {
           variants={reduceMotion ? undefined : container}
           initial={reduceMotion ? false : "hidden"}
           animate={reduceMotion ? undefined : "show"}
-          className="font-display font-semibold leading-[0.95] tracking-tight text-textPrimary text-5xl sm:text-7xl lg:text-[5.8rem] max-w-5xl"
+          className="font-display font-semibold leading-[0.95] tracking-tight text-textPrimary text-5xl sm:text-7xl lg:text-[5.8rem] max-w-5xl min-h-[4.9em] sm:min-h-[2.9em] lg:min-h-[1.95em]"
           data-testid="hero-headline"
           aria-label="We make brands impossible to ignore."
         >
